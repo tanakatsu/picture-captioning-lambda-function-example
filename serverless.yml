@@ -69,6 +69,10 @@ functions:
     environment:
       MS_COGNITIVE_VISION_API_KEY: ${env:MS_COGNITIVE_VISION_API_KEY}
       MS_COGNITIVE_TRANSLATE_API_KEY: ${env:MS_COGNITIVE_TRANSLATE_API_KEY}
+    events:
+      - http:
+          path: pictures/caption
+          method: get
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
