@@ -59,6 +59,9 @@ custom:
 #  exclude:
 #    - exclude-me.py
 #    - exclude-me-dir/**
+package:
+  exclude:
+    - py3_api_clients/**
 
 plugins:
   - serverless-python-requirements
