@@ -2,7 +2,7 @@
 
 ## What's this?
 
-Picture captioning and tranlating labmda function, which get a caption of picture and translate it into Japanese text using two APIs, [Microsoft Compute Vision API](https://azure.microsoft.com/ja-jp/services/cognitive-services/computer-vision/) and [Microsoft Translator API](https://www.microsoft.com/ja-jp/translator/translatorapi.aspx).
+Picture captioning and tranlating labmda function, which get a caption of picture and translate it into Japanese text using two APIs, [Microsoft Computer Vision API](https://azure.microsoft.com/ja-jp/services/cognitive-services/computer-vision/) and [Microsoft Translator API](https://www.microsoft.com/ja-jp/translator/translatorapi.aspx).
 
 ## System requirements
 
