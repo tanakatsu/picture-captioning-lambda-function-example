@@ -31,7 +31,7 @@ def GetPictureCaption(event, context):
 
     v_client = vision_client.VisionClient(api_key=key)
     result = v_client.get_labels(url)
-    # print(result)
+    print(result)
 
     caption = result['description']['captions'][0]['text']
     print(caption)
