@@ -72,6 +72,11 @@ functions:
     environment:
       MS_COGNITIVE_VISION_API_KEY: ${env:MS_COGNITIVE_VISION_API_KEY}
       MS_COGNITIVE_TRANSLATE_API_KEY: ${env:MS_COGNITIVE_TRANSLATE_API_KEY}
+      MS_COGNITIVE_SPEECH_API_KEY: ${env:MS_COGNITIVE_SPEECH_API_KEY}
+      S3_ACCESS_KEY_ID: ${env:S3_ACCESS_KEY_ID}
+      S3_SECRET_ACCESS_KEY: ${env:S3_SECRET_ACCESS_KEY}
+      S3_BUCKET: ${env:S3_BUCKET}
+      S3_PREFIX_KEY: ${env:S3_PREFIX_KEY}
     events:
       - http:
           path: pictures/caption

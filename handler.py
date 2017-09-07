@@ -1,17 +1,27 @@
 import vision_client
 import translate_client
+import synthesis_client
+import s3_client
 import os
 import json
+import datetime
 
 
 def GetPictureCaption(event, context):
     print(event)
+    # print(os.environ)
 
     try:
         # url = event["url"]  # if you don't use the http event with the LAMBDA-PROXY integration
         url = event["queryStringParameters"]["url"]
     except:
         url = None
+
+    try:
+        # url = event["voice"]  # if you don't use the http event with the LAMBDA-PROXY integration
+        voice = event["queryStringParameters"]["voice"]
+    except:
+        voice = False
 
     # url = "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Ch_mtn_zoo_giraffes_2003.jpg/1200px-Ch_mtn_zoo_giraffes_2003.jpg"
     print('url=', url)
@@ -43,10 +53,33 @@ def GetPictureCaption(event, context):
     result_text = result_text.encode('utf-8')
     print(result_text)
 
+    if voice:
+        key = os.environ['MS_COGNITIVE_SPEECH_API_KEY']
+        syn_client = synthesis_client.SynthesisClient(api_key=key)
+        voice_data = syn_client.synthesis(result_text)
+        print('%d bytes' % len(voice_data))
+
+        access_key = os.environ['S3_ACCESS_KEY_ID']
+        secret_key = os.environ['S3_SECRET_ACCESS_KEY']
+        bucket = os.environ['S3_BUCKET']
+        prefix_key = os.environ['S3_PREFIX_KEY']
+
+        dt = datetime.datetime.now()
+        key = '%d-%d-%d-%d-%d-%d.wav' % (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
+        if prefix_key:
+            key = prefix_key + '/' + key
+        s3_cli = s3_client.S3Client(access_key=access_key, secret_key=secret_key)
+        s3_cli.upload(bucket, key, voice_data)
+        print('uploaded')
+        speech_url = s3_cli.signed_url(bucket, key)
+    else:
+        speech_url = None
+
     result = {
         "url": url,
         "caption_en": caption,
         "caption_ja": result_text,
+        "speech_url": speech_url,
         "event": event
     }
 
