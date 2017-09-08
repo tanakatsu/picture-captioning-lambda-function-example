@@ -59,8 +59,6 @@ def GetPictureCaption(event, context):
         voice_data = syn_client.synthesis(result_text)
         print('%d bytes' % len(voice_data))
 
-        access_key = os.environ['S3_ACCESS_KEY_ID']
-        secret_key = os.environ['S3_SECRET_ACCESS_KEY']
         bucket = os.environ['S3_BUCKET']
         prefix_key = os.environ['S3_PREFIX_KEY']
 
@@ -68,7 +66,7 @@ def GetPictureCaption(event, context):
         key = '%d-%d-%d-%d-%d-%d.wav' % (dt.year, dt.month, dt.day, dt.hour, dt.minute, dt.second)
         if prefix_key:
             key = prefix_key + '/' + key
-        s3_cli = s3_client.S3Client(access_key=access_key, secret_key=secret_key)
+        s3_cli = s3_client.S3Client()
         s3_cli.upload(bucket, key, voice_data)
         print('uploaded')
         speech_url = s3_cli.signed_url(bucket, key)
