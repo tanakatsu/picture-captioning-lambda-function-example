@@ -4,10 +4,12 @@
 
 Picture captioning and tranlating labmda function, which get a caption of picture and translate it into Japanese text using two APIs, [Microsoft Computer Vision API](https://azure.microsoft.com/ja-jp/services/cognitive-services/computer-vision/) and [Microsoft Translator API](https://www.microsoft.com/ja-jp/translator/translatorapi.aspx).
 
+You can generate audio data from translated caption text using [Microsoft Bing Speech API](https://azure.microsoft.com/ja-jp/services/cognitive-services/speech/), too.
+
 ## System requirements
 
 - [serverless framework](https://github.com/serverless/serverless)
-- python2.7 
+- python 2.7
 - aws-cli
 
 AWS user of serverless framework should have an AdministratorAccess permission. 
@@ -30,6 +32,10 @@ $ aws configure --profile your_serverless_profile_name
 
 [https://www.microsoft.com/ja-jp/translator/getstarted.aspx](https://www.microsoft.com/ja-jp/translator/getstarted.aspx)
 
+##### Microsoft Bing Speech API
+
+[https://azure.microsoft.com/ja-jp/try/cognitive-services/?api=speech-api](https://azure.microsoft.com/ja-jp/try/cognitive-services/?api=speech-api)
+
 ### Configuration
 
 Edit serverless.yml depending on your needs.
@@ -48,8 +54,12 @@ If you don't want to create AWS Gateway HTTP endpoints, please comment out `even
 
 - MS\_COGNITIVE\_VISION\_API\_KEY
 - MS\_COGNITIVE\_TRANSLATE\_API\_KEY
+- MS\_COGNITIVE\_SPEECH\_API\_KEY (optional)
+- S3\_BUCKET (optional)
+- S3\_PREFIX\_KEY (optional)
 
-Each variable should have a value of api key.
+If you want to do speech synthesis, set two S3\_XXX variables.
+Generated audio data will be stored in your S3 bucket.
 
 ### Running local
 
@@ -68,6 +78,13 @@ Response sample is
     "statusCode": 200
 }
 ```
+
+If you want to convert translated text to audio , pass `"voice":true` parameter.
+
+```
+$ sls invoke local -f picture_caption -d '{"queryStringParameters": {"url": your_picture_url, "voice": true }}'
+```
+Response has `speech_url` field.
 
 ### Deployment to AWS
 
